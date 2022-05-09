@@ -1,17 +1,50 @@
 <div class="container">
-  
-    <form [formGroup]="formGroup">
+    <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+      <li class="mat-form-field--inline">
       <mat-form-field>
         <mat-label>
-          Employee
+          Product Names
         </mat-label>
-        <input formControlName="employee" matInput type="text" [matAutocomplete]="auto" />
+        <input formControlName="productNames" matInput type="text" [matAutocomplete]="auto" />
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let item of filteredOptions" [value]="item">
-            {{item}}
-          </mat-option>
+          <cdk-virtual-scroll-viewport class="autocomplete-test-viewport"
+                                       [ngStyle]="{'height': height}"
+                                       itemSize="25" >
+            <mat-option *cdkVirtualFor="let item of filteredOptions" [value]="item" class="autocomplete-item">
+              {{item}}
+            </mat-option>
+          </cdk-virtual-scroll-viewport>
         </mat-autocomplete>
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>Quantity</mat-label>
+        <input formControlName="quantity" matInput type="number"/>
+      </mat-form-field><button class="button">submit</button>
+      </li>
+
+      <p *ngIf="quantityEntered == 1 && formSubmitted">The product price for selected product with quantity 1 is : {{productPrice}}</p>
+      <p *ngIf="quantityEntered > 1 && formSubmitted">The product price for selected product with quantity {{quantityEntered}} is : {{totalProductPrice}}</p>
+
     </form>
-  
+
+
+  <div *ngFor="let indexOfElement = index; let prod of mySelectedProductList;">
+    <p>{{indexOfElement+1}}. Selected product is {{prod}}!</p>
+  </div>
+  <div *ngFor="let price of myPriceListArray">
+    <p class="totalPrice"><i>Total price for the selected product is {{price}}</i></p>
+  </div>
+
+
+  <form [formGroup]="formGroup" (ngSubmit)="OrderForm()">
+    <p>Create an order by clicking Order button  <i class="note">(Note: An order may contain 5 unique products and no more)</i></p>
+
+    <p *ngIf="orderForm && orderedProductPrice">The price for the ordered product(s) is {{orderedProductPrice}}</p>
+    <p *ngIf="orderForm && !orderedProductPrice && !selectedProductName" class="warning"><i>Sorry, please select a product to order!</i></p>
+    <p *ngIf="myPriceListArray.length > 5" class="warning">Sorry, cannot Order more than 5 products!! Please contact support team.</p>
+    <button [disabled]="mySelectedProductList.length >=6">Order Now</button>
+  </form>
+<div>
+
+</div>
 </div>

@@ -1,3 +1,21 @@
 .container{
     margin: 100px;
 }
+.autocomplete-item {
+  height: 50px;
+}
+.totalPrice {
+  color: blue;
+}
+.warning {
+  color: red;
+}
+.note{
+  color: green;
+}
+.mat-form-field--inline .mat-form-field:nth-child(1) {
+  margin-right: 10px;
+}
+.button {
+  margin-left: 10px;
+}

@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map, skipWhile, tap} from 'rxjs/operators'
-import { Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServService {
 
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getData(){
-    return this.http.get('https://jsonplaceholder.typicode.com/users')
+  getNameData(){
+    return this.http.get('http://localhost:3000/order/products')
       .pipe(
-        map((response:[]) => response.map(item => item['name']))
-      )
+        map((response:[]) => response.map(item => item['productName']))
+      );
+  }
+
+  getAllData() {
+    return this.http.get('http://localhost:3000/order/products').pipe(map((res:[]) => res.map(item => item)));
   }
 }
